@@ -1,0 +1,23 @@
+
+
+<!-- content area -->
+    {% if properties %}
+    
+    {% for property in properties %}
+        <!-- property item start -->
+        <div class="row post-item p-2">
+            <div class="col-xl-4 col-md-4 col-sm-4 col-12 post-image" style="max-height:250px;">
+                <img class="w-100 h-100 rounded" src="{{ property.image.url }}" alt="iPhone X">
+            </div>
+            <div class="col-xl-8 col-md-8 col-sm-8 col-12 post-content">
+                <h3 class="title"> <a class="text-dark text-decoration-none" href="">{{ property.property.title }}</a></h3>
+                <p class="py-2">{{ property.property.description }}</p>
+                <a class="btn btn-warning float-end mt-2 mb-1 me-3" href="">Price ${{ property.property.price }}/Night</a>
+            </div>
+        </div>
+        <!-- post item end -->
+    {% endfor %}
+    {%else%}
+    <p class="text-center">No Data Found</p>
+    {% endif %}
+<!-- content area end -->

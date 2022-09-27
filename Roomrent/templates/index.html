@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- navbar start -->
+    <div class="row">
+        <div class="col w-100 bg-dark">
+            <h4 class="text-start text-light p-3"> <a class="text-light text-decoration-none" href="{% url 'index' %}">Logo MK</a> </h4>
+        </div>
+    </div>
+    <!-- navbar end -->
+</div>
+<!-- search title -->
+{% if location %}
+<div class="container-fluid ps-5">
+    <h3>{{location}}</h3>
+</div>
+{% endif%}
+<!-- search title end-->
+
+<!-- filter area start -->
+<div class="container-fluid">
+    <form action="" method="get">
+        <div class="row p-3">
+            <div class="col-xl-6 col-md-6 col-sm-12 col-12 px-5">
+                <label for="price" class="form-label w-100" >Price (<span id="show" >{% if price %}  {{ price }}{% else %}{{maxprice}}{% endif %}</span>)</label>
+                <input id="price" onchange="change(this)" type="range" name="price" {% if price %}  value="{{price}}"{% else %} value="{{maxprice}}" {% endif %} {% if maxprice and minprice %} min="{{minprice}}" max="{{maxprice}}" {% endif %} class="form-range" style="width:60%" id="price">
+            </div>
+            <div class="col-xl-6 col-md-6 col-sm-12 col-12 px-5 p-4">
+                <div class="input-group mb-3 float-end" style="width:70%;">
+                    
+                    <input type="text" class="form-control"{% if location %} value="{{location}}" {% endif %} name="location" placeholder="Where you want to visit?" id="location">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- filter by height to low and low to height -->
+    <div class="row">
+        <div class="col">
+            <select hx-get="{% url 'orderby' %}" hx-target="#post" hx-indicator=".htmx-indicator"  id="orderby" onchange="orderby(this)" name="orderby" class="form-select vw-xl-50 vw-md-50 w-50 w-50 float-end" aria-label="Default select example">
+                {% if 'orderby' in request.session.keys %}
+                    {% if request.session.orderby == 'lh' %}
+                        <option value="hl" >Heigh to Low </option>
+                        <option value="lh" selected>Low to Heigh</option>
+                    {% else %}
+                        <option value="lh" >Low to Heigh</option>
+                        <option value="hl" selected>Heigh to Low</option>
+                    {% endif %}
+                {% else %}
+                        <option value="hl" >Heigh to Low </option>
+                        <option value="lh" selected>Low to Heigh</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <!-- filter by height to low and low to height -->
+</div>
+<!-- filter area start -->
+
+
+    
+<!-- content area -->
+<div id="post" class="container-fluid">
+    {% if properties %}
+    
+    {% for property in properties %}
+        <!-- property item start -->
+        <div class="row post-item p-2">
+            <div class="col-xl-4 col-md-4 col-sm-4 col-12 post-image" style="max-height:250px;">
+                <img class="w-100 h-100 rounded" src="{{property.image.url}}" alt="iPhone X">
+            </div>
+            <div class="col-xl-8 col-md-8 col-sm-8 col-12 post-content">
+                <h3 class="title"> <a class="text-dark text-decoration-none" href="">{{ property.property.title }}</a></h3>
+                <p class="py-2">{{ property.property.description }}</p>
+                <a class="btn btn-warning float-end mt-2 mb-1 me-3" href="">Price ${{ property.property.price }}/Night</a>
+            </div>
+        </div>
+        <!-- post item end -->
+    {% endfor %}
+    {%else%}
+    <p class="text-center">No Data Found</p>
+    {% endif %}
+</div>
+<!-- content area end -->
+
+<!-- pagination start -->
+<div class="container-fluid">
+    <nav aria-label="Page navigation example">  
+        <ul class="pagination justify-content-end">
+            {% if properties.has_previous %}
+                <li class="page-item"><a class="page-link " href="?page=1" >&laquo; First</a></li>                
+                <li class="page-item"><a class="page-link" href="?page={{ properties.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" href="">&laquo; First</a></li>                
+                <li class="page-item disabled"><a class="page-link" href="" tabindex="-1" aria-disabled="true">Previous</a></li>
+            {% endif %}
+
+
+            {% with ''|center:properties.paginator.num_pages as range %}
+                {% for _ in range %} 
+                    {% if forloop.counter == properties.number %}                    
+                        <li class="page-item active"><a class="page-link" href="?page={{ forloop.counter }}">{{forloop.counter}}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{forloop.counter}}</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}        
+        
+            {% if properties.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ properties.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ properties.paginator.num_pages }}">Last &raquo;</a></li>
+                {% else %}
+                <li class="page-item disabled" ><a class="page-link" href="">Next</a></li>
+                <li class="page-item disabled" ><a class="page-link" href="">Last &raquo;</a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+</div>
+<!-- pagination start -->
+
+
+<script>
+    // this is for orderby selection tag start
+    const orderby = (e)=>{
+        // get selection tag by ID
+        let getorderby = document.getElementById('orderby')
+        // get name attribute here
+        let getordername = getorderby.getAttribute('name')
+        // get option value
+        let getordervalue = getorderby.value
+        console.log(getordername+":"+getordervalue)
+        // get both value in session
+        sessionStorage.setItem(getordername, getordervalue);
+        document.cookie = `{getordername}={getordervalue}`;
+        // window.reload();
+        
+    }
+        // this is for orderby selection tag end
+    // this script for range
+    const change =(e) =>{
+        document.getElementById('show').innerHTML = e.value;
+    }
+    // this script for range
+</script>
+
+{% endblock %}
