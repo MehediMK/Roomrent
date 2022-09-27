@@ -15,7 +15,7 @@
   - create a virtual env `pip virtualenv env`
   - For activate env write on you terminal `source env/bin/activate` (*linux) on `env\Scripts\activate` (Windows)
   - Install packages `pip install -r requirements.txt`
-  - To configure your Postgres database and secret_key change file name from `config.py sample` to `config.py` change connections accordingly. which is given main project app directory.
+  - To configure your Postgres database and secret_key change file name from `config.py sample` to `config.py` change connections accordingly. which is given main project app `Roomrent` directory.
   - run on your terminal `python manage.py migrate`
   - run `python manage.py runserver`
 
