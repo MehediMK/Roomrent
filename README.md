@@ -1,11 +1,17 @@
-# Roomrent Project Using Django Framework
+<h1 align='center'>Roomrent Project Using Django Framework</h1>
+
 
 ## Prerequisites
   - Python 3.8+
   - Postgres
   - Virtualenv and Pip
 
-## For development
+## How to Run this Project
+
+  - First of all clone this Project
+  - Now go to the download directory
+  - Extract this File
+  - Now go to the project directory
   - create a virtual env `pip virtualenv env`
   - For activate env write on you terminal `source env/bin/activate` (*linux) on `env\Scripts\activate` (Windows)
   - Install packages `pip install -r requirements.txt`
