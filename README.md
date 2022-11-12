@@ -10,7 +10,7 @@
 
   - First of all clone this Project
   - Now go to the project directory
-  - create a virtual env `pip virtualenv env`
+  - create a virtual env `virtualenv env`
   - For activate env write on you terminal `source env/bin/activate` (*linux) on `env\Scripts\activate` (Windows)
   - Install packages `pip install -r requirements.txt`
   - For configure `copy "config.py sample" config.py`
