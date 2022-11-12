@@ -63,7 +63,7 @@ WSGI_APPLICATION = 'Roomrent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = DATABASES
+DATABASES = sqlite_database(BASE_DIR)
 
 
 # Password validation

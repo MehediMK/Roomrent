@@ -4,3 +4,10 @@ __pycache__
 migrations
 db.sqlite3
 config.py
+
+#environment
+env
+venv
+
+#databse
+db.sqlite3
