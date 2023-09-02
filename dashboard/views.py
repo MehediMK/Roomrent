@@ -31,7 +31,9 @@ def index(request):
     if price or location :
         # filter by price and location if not empty
         if price != '' and location != '':
-            allproperty = Propertyimage.objects.select_related('property').filter(Q(property_id__location__name__icontains=location) & Q(property_id__price__lte=price))
+            allproperty = Propertyimage.objects.select_related('property').filter(
+                Q(property_id__location__name__icontains=location) & 
+                Q(property_id__price__lte=price))
             context['postcount'] = allproperty.count()
         # filter by only price if not empty
         if price != '':
