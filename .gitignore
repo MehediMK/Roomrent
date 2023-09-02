@@ -9,5 +9,9 @@ config.py
 env
 venv
 
+#media
+# media/*
+
+
 #databse
 db.sqlite3
