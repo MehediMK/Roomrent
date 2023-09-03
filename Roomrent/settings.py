@@ -86,7 +86,8 @@ def sqlite_database(path):
         }
     }
 
-DATABASES = [sqlite_database(BASE_DIR)]
+# or you can add postgres_database()
+DATABASES = sqlite_database(BASE_DIR)
 
 
 # Password validation

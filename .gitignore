@@ -9,9 +9,10 @@ config.py
 env
 venv
 
-#media
-media/*
-
+#media & static files
+#!media
+/media/*
+/staticfiles/*
 
 #databse
 db.sqlite3
